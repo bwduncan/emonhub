@@ -14,7 +14,7 @@ Monitors GPIO pins for pulses
 
 class EmonHubPulseCounterInterfacer(EmonHubInterfacer):
 
-    def __init__(self, name):
+    def __init__(self, name, pulse_pins=None, bouncetime=1):
         """Initialize interfacer
 
         """
@@ -22,10 +22,13 @@ class EmonHubPulseCounterInterfacer(EmonHubInterfacer):
         # Initialization
         super().__init__(name)
 
+        if pulse_pins is None:
+            pulse_pins = []
         self._pulse_settings = {
-            'pulse_pins': '',
-            'bouncetime' : 1,
+            'pulse_pins': pulse_pins,
+            'bouncetime' : bouncetime,
         }
+        self._settings.update(self._pulse_settings)
         self.pulse_count = defaultdict(int)
 
         self.init_gpio()
