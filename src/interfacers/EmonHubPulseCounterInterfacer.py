@@ -1,6 +1,7 @@
 from emonhub_interfacer import EmonHubInterfacer
 from collections import defaultdict
 import time
+import atexit
 import RPi.GPIO as GPIO
 
 import Cargo
@@ -34,6 +35,7 @@ class EmonHubPulseCounterInterfacer(EmonHubInterfacer):
 
         """
 
+        atexit.register(GPIO.cleanup)
         GPIO.setmode(GPIO.BOARD)
         for pin in self._settings['pulse_pins'].split(','):
             pin = int(pin)
